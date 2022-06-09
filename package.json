@@ -1,0 +1,25 @@
+{
+  "name": "heroku-scrapper",
+  "version": "1.0.0",
+  "description": "A script to scrape wara data automatically",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Ali Mohamad",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "googleapis": "^87.0.0",
+    "puppeteer": "^10.4.0"
+  },
+  "engines": {
+    "node": "16.x"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
+}

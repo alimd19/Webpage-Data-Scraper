@@ -1,0 +1,96 @@
+<%- include ("./partials/header.ejs") %>
+  
+<div
+  class="d-flex mx-auto my-2 shadow text-center rounded"
+  style="width: 90vw; height: fit-content; background-color: cadetblue"
+>
+  <div
+    class="d-flex flex-column align-self-center mx-auto"
+    style="width: 100%; height: 100%"
+  >
+    <% if(typeof output === "string") { %>
+      <span
+        class="text-break mx-auto my-2 align-middle bg-light fs-1 d-block rounded"
+        style="width: 75%"
+      ><%= output %></span>
+    <% } else { %>
+      <div class="container mx-auto my-3 rounded border border-dark" style="width: 95%; background-color: aliceblue;">
+        <div class="row font-weight-bold align-items-center" style="margin: 10px auto; font-size: x-large; font-weight: bolder;">
+          <div class="col">Center</div>
+          <div class="col">Event Date</div>
+          <div class="col">Event Time</div>
+          <div class="col-4">Status</div>
+          <div class="col container">
+            <div class="row"  style="margin-bottom: 15px;">
+              <div class="col">Floor</div>
+            </div>
+            <div class="row">
+              <div class="col">M</div>
+              <div class="col">F</div>
+            </div>
+          </div>
+            <div class="col container">
+              <div class="row"  style="margin-bottom: 15px;">
+                <div class="col">Chair</div>
+              </div>
+              <div class="row">
+                <div class="col">M</div>
+                <div class="col">F</div>
+              </div>
+            </div>
+          <div class="col">Action</div>
+        </div>
+
+        <hr class="border border-white rounded" size="7.5px">
+            
+        <% output.forEach(status => { %>
+          <div class="row m-auto align-items-center" style="font-size: medium; margin: 10px auto;">
+            <div class="col"><%= status.details.center %></div>
+            <div class="col"><%= status.details.eventDate %></div>
+            <div class="col"><%= status.details.eventTime %></div>
+            <div class="col-4"><%= status.status %></div>
+            <div class="col container">
+              <div class="row">
+                <div class="col"><%= status.details.remaining.floor.male %></div>
+                <div class="col"><%= status.details.remaining.floor.female %></div>
+              </div>
+            </div>
+            <div class="col container">
+              <div class="row">
+                <div class="col"><%= status.details.remaining.chair.male %></div>
+                <div class="col"><%= status.details.remaining.chair.female %></div>
+              </div>
+            </div>
+              
+          <% if(status.status === "Skipped. Event already in google sheets.") { %>
+            <div class="col">
+              <form action="/manual_post" method="post">
+                <input type="hidden" name="verification" value="false" />
+                <input type="hidden" name="time" value=<%= status.details.eventTime %> />
+                <input type="hidden" name="deadline" value=<%= status.details.deadline %> />
+                <input type="hidden" name="center" value=<%= status.details.center %> />
+                <a class="text-wrap btn btn-dark btn-sm" onclick="this.parentNode.submit();">Post anyway</a>
+              </form>
+            </div>
+          <% } else if (status.status === "Skipped. Event has no scheduled members.") { %>
+            <div class="col">
+              <a class="text-wrap btn btn-dark btn-sm" href="/">Try again</a>
+            </div>
+          <% } else { %>
+            <div class="col">Task Complete</div>
+          <% }; %>
+              
+          </div>
+
+          <hr class="border border-white rounded" size="7.5px">
+        <% }); %>
+      </div>
+    <% }; %>
+    <a
+      href="/"
+      class="text-wrap mx-auto my-2 align-middle btn btn-dark btn-lg" style="width: 20%; font-size: xx-large;"
+    >Back</a>
+  </div>
+</div>
+
+<%- include ("./partials/footer.ejs") %>
